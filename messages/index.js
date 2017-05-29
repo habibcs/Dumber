@@ -43,7 +43,9 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 //*/
 
 .matches('Weather', (session, args) => {
-    session.send('You asked for weather : ' + JSON.stringify(args))    
+    //session.send('You asked for weather : ' + JSON.stringify(args))    
+    var objIntent = JSON.parse(args);
+    session.send('Weather for ' + objIntent.entities[0].entity + ' is great')
 })
 
 .matches('Greeting', (session, args) => {
