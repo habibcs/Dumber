@@ -4,6 +4,8 @@ natural language support to a bot.
 For a complete walkthrough of creating this type of bot see the article at
 http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 -----------------------------------------------------------------------------*/
+// @ts-check 
+
 "use strict";
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
@@ -43,13 +45,14 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 //*/
 
 .matches('Weather', (session, args) => {
-    //session.send('You asked for weather : ' + JSON.stringify(args))    
-    var objIntent = JSON.parse(args);
-    session.send('Weather for ' + objIntent.entities[0].entity + ' is great')
+    //session.send('You asked for weather : ' + JSON.stringify(args))
+    var objUserIntention = JSON.parse(args);
+    session.send('Weather for ' + objUserIntention.entities[0].entity + ' is great')
+    //console.log('Weather for ' + objUserIntention.entities[0].entity + ' is great');
 })
 
 .matches('Greeting', (session, args) => {
-    session.send('Hello - You greeted me : ' + JSON.stringify(args))    
+    session.send('Hello - Thanks for the greeting')    
 })
 
 .onDefault((session) => {
