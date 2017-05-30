@@ -53,7 +53,13 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 
 .matches('Greeting', (session, args) => {
-    session.send('Hello - Thanks for the greeting')    
+    session.send('Hello - Thanks for the greeting!')
+})
+
+.matches('EndGreeting', (session, args) => {
+    if (session.message.text.toLowerCase().match(/have a good.*/))
+        session.send('You too, bye.');
+    else session.send('Have a good day! Bye.')
 })
 
 .onDefault((session) => {
