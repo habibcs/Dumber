@@ -2,8 +2,10 @@ var restify = require('restify');
 
 var wundergroundClient = restify.createJsonClient({ url: 'http://api.wunderground.com' });
 
+//working sample: http://api.wunderground.com/api/eb67ef77d32048c4/conditions/q/united_arab_emirates/Dubai.json
 function getCurrentWeather(location, callback) {
-    var escapedLocation = location.replace(/\W+/, '_');
+    var escapedLocation = location.replace(/\W+/g, '_');
+    //var escapedLocation = location.replace(/\s+/g,'_');
     wundergroundClient.get(`/api/eb67ef77d32048c4/conditions/q/${escapedLocation}.json`, (err, req, res, obj) => {
         console.log(obj);
         var observation = obj.current_observation;

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-
+Got this as a template from the Azure Bot Service (function app) directly.
 -----------------------------------------------------------------------------*/
 // @ts-check 
 
@@ -51,6 +51,10 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.send('Hello - Thanks for the greeting!')
     })
 
+    .matches('GreetingPlus', (session, args) => {
+        session.send('I am good, thanks! Hope you are great as well, how may I help you.')
+    })
+
     .matches('EndGreeting', (session, args) => {
         if (session.message.text.toLowerCase().match(/have a good.*/))
             session.send('You too, bye.');
@@ -78,12 +82,12 @@ function weatherParserFunction(session, args, next) {
     //var locationEntity = builder.EntityRecognizer.findEntity(args.entities, 'Weather.Location'); //args.entities[0].entity;
     var city = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.city');
     var country = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.country');
-    if (city && city.entity != 'there') {
+    if (city && country && city.entity != 'there') {
         session.dialogData.searchType = 'weather';
         session.send('Fetching the weather info for the location: \'%s\'', city.entity);
         next({ response: city.entity + ', ' + country.entity });
     }
     else
-        session.send('You did not tell me which place do you want to know the weather for, What location?');
-        //builder.Prompts.text(session, 'You did not tell me which place do you want to know the weather for, What location?'); // => this way directly sends to the next in response function
+        session.send('Sorry I could not find the exact location to tell you it\'s weather, can you please tell me again like: Paris, France (City, Country)?');
+        //builder.Prompts.text(session, 'Sorry I did not understand the exact location for the weather, Can you please tell again like: Paris, France (City, Country)?'); // => this way directly sends to the next in response function
 }
